@@ -1,15 +1,16 @@
 from fastapi.responses import HTMLResponse
 
+### コードいろいろ... ###
+
 @app.get("/index")
 def index():
     html_content = """
     <html>
         <head>
-            <title>私のホームページ</title>
+            <title>Some HTML in here</title>
         </head>
         <body>
-            <h1>こんにちは！</h1>
-            <p>FastAPIで作ったホームページです。</p>
+            <h1>Look ma! HTML!</h1>
         </body>
     </html>
     """
