@@ -8,55 +8,80 @@ app = FastAPI()
 @app.get("/index")
 def index():
     html_content = """
-<html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>うちのペット紹介サイト</title>
+  <title>うちのペットにおやつをあげよう</title>
   <style>
-    body { font-family: sans-serif; background: #fffaf0; padding: 20px; }
-    .pet-card { background: white; padding: 20px; border-radius: 10px; width: 400px; margin: auto; }
-    .pet-img { width: 100%; border-radius: 10px; }
-    .section-title { margin-top: 30px; font-size: 20px; font-weight: bold; }
-    #result { margin-top: 15px; padding: 10px; background: #e0ffe0; border-radius: 8px; }
+    body {
+      font-family: sans-serif;
+      background: #faf7ef;
+      padding: 20px;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+    }
+    h1 {
+      margin-top: 0;
+    }
+    .section-title {
+      margin-top: 24px;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    input {
+      padding: 6px;
+      width: 70%;
+      font-size: 1rem;
+    }
+    button {
+      padding: 6px 12px;
+      font-size: 1rem;
+      margin-left: 4px;
+    }
+    .note {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #555;
+    }
   </style>
 </head>
 <body>
 
-  <div class="pet-card">
-    <h1>🐶 うちのペット「ポチ」</h1>
-    <img src="dog.jpg" alt="pet" class="pet-img">
+  <div class="container">
+    <h1>🐾 うちのペット「ポチ」</h1>
 
     <p>
       ポチは元気いっぱいの柴犬です。  
-      お散歩が大好きで、特におやつをもらうととても喜びます。
+      お散歩とおやつが大好きで、誰かがおやつをくれるとしっぽをぶんぶん振って喜びます。
     </p>
 
-    <div class="section-title">ポチにおやつをあげよう</div>
-    <p>好きなおやつの名前を入力してね。</p>
+    <div class="section-title">ポチにおやつをあげてみよう</div>
 
-    <input id="present" placeholder="例：ビスケット" style="padding: 8px; width: 70%;">
-    <button onclick="sendPresent()" style="padding: 8px 12px;">あげる</button>
+    <p>
+      下のフォームから、ポチにあげたいおやつの名前を送ってください。  
+      送信すると、サーバからメッセージ（JSON）が返ってきます。
+    </p>
 
-    <div id="result"></div>
+    <form action="/present" method="post">
+      <label for="present">おやつの名前：</label><br>
+      <input id="present" name="present" placeholder="例：ビスケット、ボーロ">
+      <button type="submit">おやつをあげる</button>
+    </form>
   </div>
-
-  <script>
-    async function sendPresent() {
-      const present = document.getElementById("present").value;
-
-      const res = await fetch("/present", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ present })
-      });
-
-      const data = await res.json();
-      document.getElementById("result").textContent = data.response;
-    }
-  </script>
 </body>
 </html>
+
+@app.post("/present")
+async def give_present(present):
+    return {"response": f"サーバです。ポチです！ {present}ありがとう。とっても嬉しいよ。お返しにしっぽをふります。"}
     """
     return HTMLResponse(content=html_content, status_code=200)
 
