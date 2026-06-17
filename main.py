@@ -12,7 +12,7 @@ def index():
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>うちのペットにおやつをあげよう</title>
+  <title>うちのペット「ポチ」紹介ページ</title>
   <style>
     body {
       font-family: sans-serif;
@@ -28,65 +28,39 @@ def index():
       border-radius: 10px;
       border: 1px solid #ddd;
     }
-    h1 {
-      margin-top: 0;
-    }
+    h1 { margin-top: 0; }
     .section-title {
       margin-top: 24px;
       font-weight: bold;
       font-size: 1.1rem;
     }
-    input {
-      padding: 6px;
-      width: 70%;
-      font-size: 1rem;
-    }
-    button {
-      padding: 6px 12px;
-      font-size: 1rem;
-      margin-left: 4px;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: #555;
-    }
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>🐾 うちのペット「ポチ」</h1>
-
     <p>
       ポチは元気いっぱいの柴犬です。  
       お散歩とおやつが大好きで、誰かがおやつをくれるとしっぽをぶんぶん振って喜びます。
     </p>
-
-    <div class="section-title">ポチにおやつをあげてみよう</div>
-
+    <div class="section-title">ポチにおやつをあげるには？</div>
     <p>
-      下のフォームから、ポチにあげたいおやつの名前を送ってください。  
-      送信すると、サーバからメッセージ（JSON）が返ってきます。
+      ポチにおやつをあげる API を用意しています。  
+      <strong>FastAPI の docs 画面</strong>から、好きなおやつの名前を入力して送信してください。
     </p>
-
-    <form action="/present" method="post">
-      <label for="present">おやつの名前：</label><br>
-      <input id="present" name="present" placeholder="例：ビスケット、ボーロ">
-      <button type="submit">おやつをあげる</button>
-    </form>
+    <p>
+      例：<br>
+      <code>present = "ビスケット"</code><br>
+      と入力すると、ポチからお礼のメッセージが返ってきます。
+    </p>
   </div>
 </body>
 </html>
-
-@app.post("/present")
-async def give_present(present):
-    return {"response": f"サーバです。ポチです！ {present}ありがとう。とっても嬉しいよ。お返しにしっぽをふります。"}
     """
     return HTMLResponse(content=html_content, status_code=200)
 
-@app.post("/food")
-async def favorite_food(food):
-    return {
-        "message": f"{food}を教えてくれてありがとう！"
-    }
+@app.post("/present")
+async def give_present(present):
+    return {"response": f" {present}！ワン、ワワン。 ワン！ワンワンワンワン！！！キャオンクォン！クゥーンクンクンクーンキャイーンワオワオワオ！"
+           }
+
